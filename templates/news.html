@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Новости
+{% endblock title %}
+
+{% block content %}
+<h1>Самые свежие новости</h1>
+
+{% if news %}
+<h2>Всего новостей: {{ news|length }}</h2>
+
+    {% for new in news %}
+
+         <h3>{{ new.title|censor}}</h3>
+        {{ new.text|censor|truncatechars:50 }}
+
+    {% endfor %}
+
+{% else %}}
+<h2>Новостей нет</h2>
+{% endif %}
+
+{% endblock content %}
