@@ -10,17 +10,40 @@
 <h1>Самые свежие новости</h1>
 
 {% if news %}
-<h2>Всего новостей: {{ news|length }}</h2>
 
-    {% for new in news %}
+    {% if is_paginated %}
 
-         <h3>{{ new.title|censor}}</h3>
-        {{ new.text|censor|truncatechars:50 }}
+        {% for new in news %}
+
+            <a href="{% url 'news_detail' new.id %}">{{ new.title|censor}}</a>
+            <p>{{ new.text|censor|truncatechars:50 }}</p>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% if page_obj.has_other_pages %}
+{% if page_obj.has_previous %}
+<a href="?page=1">Первая</a>
+<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+{% endif%}
+    {% for p in paginator.page_range %}
+        {% if page_obj.number == p %}
+            {{ p }}
+        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+            <a href="?page={{ p }}">{{ p }}</a>
+        {% endif %}
+
 
     {% endfor %}
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+<a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+{% endif%}
+{% endif %}
 
 {% else %}}
 <h2>Новостей нет</h2>
 {% endif %}
-
+<p><a href="add/">Добавить пост</a></p>
 {% endblock content %}

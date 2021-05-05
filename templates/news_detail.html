@@ -13,5 +13,10 @@
 <p>{{ news.text|censor }}</p>
 <br/>
 Дата публикации: <b>{{ news.post_time|date:'d-M-Y H:m'  }}</b>
-
+<br/>
+<a href="{% url 'news_update' news.id %}">Редактировать</a>
+<br/>
+<a href="{% url 'news_delete' news.id %}">Удалить</a>
+<br/>
+<a href="add/">Добавить</a>
 {% endblock content %}

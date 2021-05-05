@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title %}
+Удаление поста
+{% endblock title %}
+
+{% block content %}
+
+<br/>
+<h2>{{ news.title|censor}}</h2>
+<br/>
+<p>{{ news.text|censor }}</p>
+<br/>
+Дата публикации: <b>{{ news.post_time|date:'d-M-Y H:m'  }}</b>
+<br/>
+<br/>
+<h3>Вы действительно хотите удалить данный пост?</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    <input type="submit" value="подтвердить">
+</form>
+
+{% endblock content %}

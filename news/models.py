@@ -16,6 +16,13 @@ class Author(models.Model):
     rating = models.IntegerField(default=0)
     author = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+    def __str__(self):
+        return self.author.username
+
     def update_rating(self):
         posts = Post.objects.filter(author=self.id)
         posts_rating = 0
@@ -36,6 +43,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -60,6 +70,9 @@ class Post(models.Model):
     def preview(self):
         preview = self.text[:123] + '...'
         return preview
+
+    def get_absolute_url(self):  # добавим абсолютный путь чтобы после создания нас перебрасывало на страницу с товаром
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):
