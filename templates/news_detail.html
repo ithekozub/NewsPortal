@@ -1,4 +1,4 @@
-{% extends 'flatpages/default.html' %}
+{% extends 'base.html' %}
 
 {% load custom_filters %}
 
@@ -14,9 +14,14 @@
 <br/>
 Дата публикации: <b>{{ news.post_time|date:'d-M-Y H:m'  }}</b>
 <br/>
+{% if is_not_author %}
+<h3>Вы не автор! Вы не можете добавлять, редактировать и удалять посты!</h3>
+<button> <a href="/sign/upgrade/"> Стать автором!</a> </button>
+{% else %}
 <a href="{% url 'news_update' news.id %}">Редактировать</a>
 <br/>
 <a href="{% url 'news_delete' news.id %}">Удалить</a>
 <br/>
 <a href="add/">Добавить</a>
+{% endif %}
 {% endblock content %}
