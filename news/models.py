@@ -43,6 +43,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
+    subscribers = models.ManyToManyField(User,
+                                         related_name='subscriber',
+                                         )
 
     def __str__(self):
         return self.name
@@ -57,7 +60,7 @@ class Post(models.Model):
     type = models.CharField(max_length=2,
                                  choices=POST_TYPE,
                                  default=select)
-    category = models.ManyToManyField(Category, through='PostCategory')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     def like(self):
         self.rating += 1
@@ -73,11 +76,6 @@ class Post(models.Model):
 
     def get_absolute_url(self):  # добавим абсолютный путь чтобы после создания нас перебрасывало на страницу с товаром
         return f'/news/{self.id}'
-
-
-class PostCategory(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):

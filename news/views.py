@@ -2,10 +2,15 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from .models import Post, Category
 from .filters import PostsFilter
-from  .forms import PostForm
+from .forms import PostForm
+
 
 class NewsList(ListView):
     model = Post
@@ -30,11 +35,17 @@ class SearchNewsList(ListView):
 class NewsDetail(DetailView):
     model = Post
     template_name = 'news_detail.html'
-    context_object_name = 'news'
+    context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        mypost = get_object_or_404(Post, id=self.kwargs['pk'])
+        category = mypost.category
+        subscribed = False
+        if category.subscribers.filter(id=self.request.user.id).exists():
+            subscribed = True
+        context['subscribed'] = subscribed
         return context
 
 
@@ -71,5 +82,13 @@ class NewsUpdate(PermissionRequiredMixin, UpdateView):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
 
-
+@login_required
+def SubscribeView(request, pk):
+    mypost = get_object_or_404(Post, id=pk)
+    category = mypost.category
+    if category.subscribers.filter(id=request.user.id).exists():
+        category.subscribers.remove(request.user)
+    else:
+        category.subscribers.add(request.user)
+    return HttpResponseRedirect(reverse('news_detail', args=[str(pk)]))
 # Create your views here.

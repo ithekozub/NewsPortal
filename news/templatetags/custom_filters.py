@@ -13,3 +13,8 @@ def censor(text):
             sentence[index] = "".join(['*' if c.isalpha() else c for c in word])
 
     return " ".join(sentence)
+
+
+@register.filter(name='title')
+def title(value):
+    return str(value).title()

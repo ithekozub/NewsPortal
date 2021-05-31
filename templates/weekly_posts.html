@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>Уважаемый {{ user.username }}!</p>
+<br/>
+<p>Вот список новых постов из избраных категорий за неделю:</p>
+
+<table>
+
+    {% for posts in art %}
+
+        {% for post in posts %}
+
+            {% if post %}
+
+                <tr>
+                    <td>
+                         <a href="http://127.0.0.1:8000/news/{{ post.id }}">{{ post.title }}</a>
+                    </td>
+
+                    <td>
+                        {{ post.text|truncatewords:5 }}
+                    </td>
+
+            {% else %}
+
+                <t1>К сожалению новых постов нет(</t1>
+             </tr>
+
+            {% endif %}
+
+         {% endfor %}
+
+   {% endfor %}
+
+
+</body>
+</html>

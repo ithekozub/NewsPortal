@@ -1,0 +1,22 @@
+
+
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p>Здравствуй, {{ username|title }}</p>
+<br/><br/>
+<p>Новая статья в твоём любимом разделе! {{ category|title }}</p>
+<br/><br/>
+<a style="text-align: left;" href="{{ link }}" >{{ text|truncatewords:50 }}<a/>
+
+
+</body>
+
+</html>

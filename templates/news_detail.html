@@ -3,24 +3,48 @@
 {% load custom_filters %}
 
 {% block title %}
-{{ news.title|censor}}
+{{ post.title|censor}}
 {% endblock title %}
 
 {% block content %}
 <br/>
-<h2>{{ news.title|censor}}</h2>
+<h2>{{ post.title|censor}}</h2>
+<h2> {{ post.category }} </h2>
 <br/>
-<p>{{ news.text|censor }}</p>
+<p>{{ post.text|censor }}</p>
 <br/>
-Дата публикации: <b>{{ news.post_time|date:'d-M-Y H:m'  }}</b>
+Дата публикации: <b>{{ post.post_time|date:'d-M-Y H:m'  }}</b>
 <br/>
+    <form action="{% url 'subscribe' post.pk %}" method="POST">
+            {% csrf_token %}
+
+    {% if user.is_authenticated %}
+        {% if subscribed %}
+                <button , ,
+                        , class="btn btn-danger"
+                        name="post.id" type="submit"
+                        value="{{ post.id }}">Отписаться от категории: {{ post.category }}</button>
+        {% else %}
+                <button , ,
+                        , class="btn btn-dark"
+                        name="post.id" type="submit"
+                        value="{{ post.id }}">Подписаться на категорию: {{ post.category }}</button>
+        {% endif %}
+
+    {% else %}
+            Login to subscribe
+    {% endif %}
+    </form>
+
+<br/><br/>
+
 {% if is_not_author %}
 <h3>Вы не автор! Вы не можете добавлять, редактировать и удалять посты!</h3>
 <button> <a href="/sign/upgrade/"> Стать автором!</a> </button>
 {% else %}
-<a href="{% url 'news_update' news.id %}">Редактировать</a>
+<a href="{% url 'news_update' post.id %}">Редактировать</a>
 <br/>
-<a href="{% url 'news_delete' news.id %}">Удалить</a>
+<a href="{% url 'news_delete' post.id %}">Удалить</a>
 <br/>
 <a href="add/">Добавить</a>
 {% endif %}
