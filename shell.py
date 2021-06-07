@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.db import models
 from NewsPaper.models import *
 
 user1 = User.objects.create_user(username='Петр Первый', password='qwerty')

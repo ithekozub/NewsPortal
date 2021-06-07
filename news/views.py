@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from datetime import datetime
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -7,9 +8,10 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Post, Category
+from .models import Post, Category, Author
 from .filters import PostsFilter
 from .forms import PostForm
+from .tasks import mail_new_post
 
 
 class NewsList(ListView):
@@ -56,13 +58,31 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     permission_required = ('news.add_post',)
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST запроса
+    def form_valid(self, form):
+        news_day_limit = 3
+        author = Author.objects.get(author=self.request.user)
 
-        if form.is_valid():  # если пользователь ввёл всё правильно и нигде не накосячил то сохраняем новый товар
-            form.save()
+        if len(Post.objects.filter(author=author, post_time__date=datetime.today())) >= news_day_limit:
+            return redirect('/news/day_limit')
 
-        return super().get(request, *args, **kwargs)
+        else:
+            article = form.save()
+            mail_new_post.delay(article.pk)
+            return super().form_valid(form)
+
+
+
+
+#    def post(self, request, *args, **kwargs):
+        #        form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST запроса
+        #
+        #       if form.is_valid():  # если пользователь ввёл всё правильно и нигде не накосячил то сохраняем новый товар
+        #           form.save()
+
+#      return super().get(request, *args, **kwargs)
+
+
+
 
 
 class NewsDelete(PermissionRequiredMixin, DeleteView):

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Day limit
+{% endblock title %}
+
+{% block content %}
+    <h3 style="text-align: center;">Здравствуйте, {{ user.username }}. Вы достигли лимита в 3 поста в день!<br>
+        Возвращайтесь завтра.</h3>
+
+
+<br/><br/>
+<a href="http://127.0.0.1:8000/news/", class="btn btn-dark">Все новости</a>
+
+{% endblock content %}

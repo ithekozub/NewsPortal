@@ -12,41 +12,40 @@ from django_apscheduler.models import DjangoJobExecution
 from datetime import timedelta, datetime
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
-from django.core.mail import EmailMultiAlternatives, send_mail
+from django.core.mail import EmailMultiAlternatives
 from news.models import Post, Category, Author
 
 logger = logging.getLogger(__name__)
 
 # наша задача по выводу текста на экран
 def my_job():
-    global Posts, subscriber, timing, cat
-    timer = datetime.now(timezone.utc)
-
-    Userposts = {
-    }
-
-    for cat in Category.objects.all():
-        for subscriber in cat.subscribers.all():
-            my_post = Post.objects.filter(category_id=cat.id, post_time__gte=(timer - timedelta(days=7)))
-            Posts = list(my_post)
-            if Posts:
-                Userposts[subscriber] = Userposts.get(subscriber, []) + [Posts]
-    Dict = Userposts.items()
-    for user, art in Dict:
-        html_content = render_to_string(
-            'weekly_posts.html',
-            {
-                'user': user,
-                'art': art,
-            }
-        )
-        msg = EmailMultiAlternatives(
-            subject='Посты за неделю',
-            from_email='ithekozub@i.ua',
-            to=[user.email],
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+    # timer = datetime.now(timezone.utc)
+    #
+    # user_posts = {
+    # }
+    #
+    # for cat in Category.objects.all():
+    #     for subscriber in cat.subscribers.all():
+    #         my_post = Post.objects.filter(category_id=cat.id, post_time__gte=(timer - timedelta(days=7)))
+    #         posts = list(my_post)
+    #         if posts:
+    #             user_posts[subscriber] = user_posts.get(subscriber, []) + [posts]
+    #
+    # for user, art in user_posts.items():
+    #     html_content = render_to_string(
+    #         'weekly_posts.html',
+    #         {
+    #             'user': user,
+    #             'art': art,
+    #         }
+    #     )
+    #     msg = EmailMultiAlternatives(
+    #         subject='Посты за неделю',
+    #         from_email='ithekozub@i.ua',
+    #         to=[user.email],
+    #     )
+    #     msg.attach_alternative(html_content, "text/html")
+    #     msg.send()
 
 
 # функция, которая будет удалять неактуальные задачи
