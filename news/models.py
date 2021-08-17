@@ -58,8 +58,8 @@ class Post(models.Model):
     post_time = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     type = models.CharField(max_length=2,
-                                 choices=POST_TYPE,
-                                 default=select)
+                            choices=POST_TYPE,
+                            default=select)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     def like(self):
@@ -92,6 +92,5 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
-
 
 # Create your models here.

@@ -3,6 +3,7 @@ from datetime import timezone, datetime, timedelta
 from .models import Category, Post, User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.db.models.signals import post_save
 
 
 @shared_task

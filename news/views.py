@@ -4,9 +4,10 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.core.cache import cache
 
 from .models import Post, Category, Author
 from .filters import PostsFilter
@@ -49,6 +50,23 @@ class NewsDetail(DetailView):
             subscribed = True
         context['subscribed'] = subscribed
         return context
+
+    def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта, как ни странно
+        obj = cache.get(f'post-{self.kwargs["pk"]}',
+                        None)  # кэш очень похож на словарь, и метод get действует также. Он забирает значение по ключу, если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=kwargs['queryset'])
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+
+        return obj
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
+
+
 
 
 class NewsCreate(PermissionRequiredMixin, CreateView):

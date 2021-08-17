@@ -1,0 +1,48 @@
+2021-07-22 16:05:56,605 ERROR F:\Django\Django_NewsPapers\venv\lib\site-packages\django\utils\log.py (<class 'KeyError'>, KeyError('queryset'), <traceback object at 0x04FD20C8>) {message)s
+Traceback (most recent call last):
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\detail.py", line 106, in get
+    self.object = self.get_object()
+  File "F:\Django\Django_NewsPapers\news\views.py", line 60, in get_object
+    obj = super().get_object(queryset=kwargs['queryset'])
+KeyError: 'queryset'
+2021-07-22 16:05:56,607 ERROR F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\servers\basehttp.py None {message)s
+2021-07-22 16:06:25,994 ERROR F:\Django\Django_NewsPapers\venv\lib\site-packages\django\utils\log.py (<class 'KeyError'>, KeyError('queryset'), <traceback object at 0x0500F508>) {message)s
+Traceback (most recent call last):
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\detail.py", line 106, in get
+    self.object = self.get_object()
+  File "F:\Django\Django_NewsPapers\news\views.py", line 60, in get_object
+    obj = super().get_object(queryset=kwargs['queryset'])
+KeyError: 'queryset'
+2021-07-22 16:06:25,995 ERROR F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\servers\basehttp.py None {message)s
+2021-07-22 16:07:10,073 ERROR F:\Django\Django_NewsPapers\venv\lib\site-packages\django\utils\log.py (<class 'KeyError'>, KeyError('queryset'), <traceback object at 0x0519AE68>) {message)s
+Traceback (most recent call last):
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "F:\Django\Django_NewsPapers\venv\lib\site-packages\django\views\generic\detail.py", line 106, in get
+    self.object = self.get_object()
+  File "F:\Django\Django_NewsPapers\news\views.py", line 60, in get_object
+    obj = super().get_object(queryset=kwargs['queryset'])
+KeyError: 'queryset'
+2021-07-22 16:07:10,074 ERROR F:\Django\Django_NewsPapers\venv\lib\site-packages\django\core\servers\basehttp.py None {message)s
